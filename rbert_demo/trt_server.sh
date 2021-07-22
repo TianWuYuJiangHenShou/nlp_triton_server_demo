@@ -1,0 +1,1 @@
+docker run --rm --runtime=nvidia --ipc=host --network=nlp -p 11200:8000 -p 11201:8001 -p 11202:8002 -v $PWD/results/triton_models:/models nvcr.io/nvidia/tritonserver:20.03-py3 trtserver --model-store=/models --log-verbose=2

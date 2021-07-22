@@ -1,0 +1,11 @@
+{
+  "word_dim": 100,
+  "pos_dim": 5,
+  "pos_size": 102,
+  "filters": [
+    3
+  ],
+  "filters_num": 230,
+  "dropout": 0.5,
+  "rel_num": 7
+}

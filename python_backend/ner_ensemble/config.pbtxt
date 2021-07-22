@@ -1,0 +1,73 @@
+name: "ner_ensemble"
+platform:"ensemble"
+max_batch_size: 32
+input [
+  {
+    name: "TEXT"
+    data_type: TYPE_STRING
+    dims: [ -1 ]
+  }
+]
+output [
+  {
+    name: "entity_indexs"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+  }
+]
+ensemble_scheduling {
+  step [
+    {
+      model_name: "ner_preprocess"
+      model_version: -1
+      input_map {
+        key: "RAW_TEXT"
+        value: "TEXT"
+      }
+      output_map {
+        key: "INPUT_IDS"
+        value: "preprocess_input_ids"
+      }
+      output_map {
+        key: "MASKS"
+        value: "preprocess_input_masks"
+      }
+      output_map {
+        key: "LENGTHS"
+        value: "preprocess_input_lengths"
+      }
+    },
+    {
+      model_name: "ner-onnx"
+      model_version: -1
+      input_map {
+        key: "input__0"
+        value: "preprocess_input_ids"
+      }
+      input_map {
+        key: "input__1"
+        value: "preprocess_input_masks"
+      }
+      output_map {
+        key: "output__0"
+        value: "ner_output"
+      }
+    },
+    {
+      model_name: "ner_postprocess"
+      model_version: -1
+      input_map {
+        key: "NER_OUTPUT_TENSOR"
+        value: "ner_output"
+      }
+      input_map {
+        key: "LENGTHS"
+        value: "preprocess_input_lengths"
+      }
+      output_map {
+        key: "NER_ENTITY_OUTPUT"
+        value: "entity_indexs"
+      }
+    }
+  ]
+}

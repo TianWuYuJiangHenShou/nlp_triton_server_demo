@@ -1,0 +1,24 @@
+name: "ner_postprocess"
+backend: "python"
+max_batch_size: 32
+input [
+  {
+    name: "NER_OUTPUT_TENSOR"
+    data_type: TYPE_FP32
+    dims: [128,15]
+  },
+  {
+    name: "LENGTHS"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+output [
+  {
+    name: "NER_ENTITY_OUTPUT"
+    data_type: TYPE_STRING
+    dims: [ 1 ]
+  }
+]
+
+instance_group [{ kind: KIND_CPU }]

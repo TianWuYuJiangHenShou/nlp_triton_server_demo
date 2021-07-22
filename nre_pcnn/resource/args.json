@@ -1,0 +1,7 @@
+{
+  "max_len": 200,
+  "limit": 50,
+  "device": -1,
+  "w2v_path": "/workspace/pipelines/nre_pcnn/resource/character_vec.txt",
+  "model_path": "/workspace/pipelines/nre_pcnn/resource/PCNN.pth"
+}
